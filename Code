@@ -1,0 +1,346 @@
+import csv
+import os
+import random
+def first():
+     print("\n\t\t\t HOSPITAL MANAGEMENT SYSTEM")
+     print("\t\t                                    ")
+     print("\t* ** * Welcome to shishu sadan hospital management system****")
+     print("\t\t                                    ")
+def doc():
+    ch=0
+    while ch<6:
+        print("\t\tDoctor's information")
+        print("\t\t1.Add Doctor's information")
+        print("\t\t2.View Doctor's information")
+        print("\t\t3.Search Doctor's info")
+        print("\t\t4.Modify information")
+        print("\t\t5.Delete Doctor's information")
+        print("\t\t6.Exit")
+        ch=int(input("Enter your choice"))
+        if ch==1:
+            add()
+            e=input("Press any key to continue..................")
+        elif ch==2:
+             view()
+             e=input("Press any key to continue..................")
+        elif ch==3:
+             search()
+             e=input("Press any key to continue..................")
+        elif ch==4:
+             modify()
+             e=input("Press any key to continue..................")
+        elif ch==5:
+             delete()
+             e=input("Press any key to continue..................")
+def pat():
+    ch=0
+    while ch<6:
+        print("\t\tPatient's Record")
+        print("\t\t1.Add Patient's information")
+        print("\t\t2.View Patient's information")
+        print("\t\t3.Search Patient's information")
+        print("\t\t4. Modify Patient's Record")
+        print("\t\t5.Delete Patient's Record")
+        print("\t\t6.Exit")
+        ch=int(input("Enter your choice"))
+        if ch==1:
+             padd()
+             e=input("Press any key to continue..................")
+        elif ch==2:
+            pview()
+            e=input("Press any key to continue..................")
+        elif ch==3:
+             psearch()
+             e=input("Press any key to continue..................")
+        elif ch==4:
+             pmodify()
+             e=input("Press any key to continue..................")
+        elif ch==5:
+             pelete()
+             e=input("Press any key to continue..................")
+def main():
+    choice=0
+    while choice !=4:
+        print("\n\t\t\tHOSPITAL MANAGEMENT SYSTEM ")
+        print("\t\t                                    ")
+        print("\t* ** * Welcome to shishu sadan hospital management system****")
+        print("\t\t                                    ")
+        print("\n\t\t* ** *Shishu Sadan Hospital - MAIN MENU * ** *")
+        print("\t\t                                    ")
+        print("1.Doctor's Information")
+        print("2.Patient's Information")
+        print("3.Billing Section")
+        print("4.Exit")
+        choice=int(input("Enter Your Choice"))
+        if choice==1:
+            doc()
+        if choice==2:
+            pat()
+        if choice==3:
+             bill()
+###################patient###############            
+def padd():
+    f=open("pat.csv","a")
+    swriter=csv.writer(f,delimiter=",")
+    first()
+    ch='y'
+    while ch=='y':
+        p_id=random.randint(1000,20000)
+        name=input("Enter Patient's Name")
+        ph=input("Enter Phone Number")
+        dept=input("Enter Department")
+        w=[p_id,name,ph,dept]
+        
+        f1=open("doctor.csv","r",newline="\r\n")
+        sreader=csv.reader(f1)
+        flag=0
+        rows=[ ]
+        for r in sreader:
+             rows.append(r)
+        l=len(rows)
+        #n=input("enter doctor id you want to search")
+        for i in range(l):
+                if rows[i] [4]==dept:
+                     print(rows[i])
+                     amount=rows[i][5]
+                     flag=1
+        f1.close()
+        d=input("Enter Doctor's Name you are looking for:")
+        if flag==0:
+                print("Doctor ID Not Found")
+
+        r=[p_id , name, ph , dept,d,amount]
+        swriter.writerow(r)
+        ch=input("Do you want to enter more")
+        f.close()
+def pview():
+        f=open("pat.csv","r",newline="\r\n")
+        sreader=csv.reader(f,delimiter=",")
+        first()
+        for r in sreader:
+             print("Patient ID  ->   ",r[0])
+             print("Patient Name    ->  ",r[1])
+             print("Patient Phone Number    ->    ",r[2])
+             print("Department    ->     ",r[3])
+             print("Doctor  Name   ->    ",r[4])
+             print("Amount     ->   ",r[5])
+             print("\r\r")
+        f.close()
+
+def psearch():
+        f=open("pat.csv","r",newline="\r\n")
+        sreader=csv.reader(f)
+        first()
+        flag=0
+        rows=[]
+        for r in sreader:
+                rows.append(r)
+        l=len(rows)
+        n=input("Enter Patient ID You Want To Search")
+        for i in range(l):
+                if rows[i][0]==n:
+                        flag=1
+                        print("Patient ID  ->   ",r[0])
+                        print("Patient NAME    ->  ",r[1])
+                        print("Patient Phone Number    ->    ",r[2])
+                        print("Department    ->     ",r[3])
+                        print("Doctor  Name   ->    ",r[4])
+                        print("Amount     ->   ",r[5])
+                        print("\r\r")
+                        
+        f.close()
+        if flag==0:
+                print("Patient  ID Not  Found")
+
+def pmodify():
+        f=open("pat.csv","r",newline="\r\n")
+        sreader=csv.reader(f)
+        first()
+        #r=[p_id , name, ph , dept]
+        flag=0
+        rows=[]
+
+        for r in sreader:
+                rows.append(r)
+        l=len(rows)
+        new=input("Enter Patient ID You Want To Modify")
+        for i in range(l):
+                if rows[i][0]==new:
+                        name=input("Enter Patient's Name")
+                        ph=int(input("Enter Phone Number"))
+                        dept=input("Enter Doctor's Department")
+                        amt=int(input("Enter Amount"))
+                        r=[new,name,ph,dept,amt]
+                        rows=rows+r
+                        flag=1
+        f.close()
+        if flag==0:
+                print("not found")
+                
+        f1=open("pat.csv","a")
+        sw=csv.writer(f1)
+        sw.writerow(rows)
+        f1.close()
+def pelete():
+         f=open("pat.csv","r",newline="\r\n")
+         sreader=csv.reader(f)
+         first()
+         flag=0
+         rows=[]
+         for r in sreader:
+                 rows.append(r)
+         l=len(rows)
+         n=input("Enter Patient ID You Want To Delete")
+         for i in range(l):
+              if rows[i][0]==n:
+                   flag=1
+                   break
+         f.close()
+
+         if flag==0:
+                 print("Patient  ID  Not  Found")
+         else:
+                 rows.remove(rows[i])
+                 print("Patient  ID  Deleted")
+         f1=open("pat.csv","w",newline="\r\n")
+         new=csv.writer(f1)
+         new.writerows(rows)
+         f1.close()
+        
+###############Doctor##############################
+def add():
+    f=open("doctor.csv","a",newline="\r\n")
+    swriter=csv.writer(f,delimiter=",")
+    first()
+    ch='y'
+    while ch=='y':
+        d_id=int(input("Enter Doctor's id"))
+        name=input("Enter Doctor's Name")
+        time=float(input("Enter OPD Timmings"))
+        ph=int(input("Enter Phone Number"))
+        dept=input("Enter Department")
+        amt=int(input("Enter OPD Charges"))
+        r=[d_id , name, time, ph , dept,amt]
+        swriter.writerow(r)
+        ch=input("Do you want to enter more")
+def view():
+        f=open("doctor.csv","r",newline="\r\n")
+        sreader=csv.reader(f,delimiter=",")
+        first()
+        for r in sreader:
+             print("Doctor  ID  ->   ",r[0])
+             print("Doctor Name    ->  ",r[1])
+             print("OPD Timmings    ->    ",r[2])
+             print("Phone Number    ->     ",r[3])
+             print("Doctor's Department  ->    ",r[4])
+             print("OPD Charges     ->   ",r[5])
+             print("\r\r")
+        f.close()
+def search():
+        f=open("doctor.csv","r",newline="\r\n")
+        sreader=csv.reader(f)
+        first()
+        flag=0
+        rows=[]
+        for r in sreader:
+                rows.append(r)
+        l=len(rows)
+        n=input("Enter Doctor ID You Want To Search")
+        for i in range(l):
+                if rows[i][0]==n:
+                        flag=1
+                        print("Doctor  ID  ->   ",rows[i][0])
+                        print("Doctor Name    ->  ",rows[i][1])
+                        print("OPD Timmings    ->    ",rows[i][2])
+                        print("Phone Number    ->     ",rows[i][3])
+                        print("Doctor's Department  ->    ",rows[i][4])
+                        print("OPD Charges     ->   ",rows[i][5])
+                        print("\r")
+        f.close()
+        if flag==0:
+                print("Doctor ID Not Found")
+def modify():
+        f=open("doctor.csv","r",newline="\r\n")
+        sreader=csv.reader(f)
+        first()
+        #r=[d_id , name, time, ph , dept]
+        flag=0
+        rows=[]
+
+        for r in sreader:
+                rows.append(r)
+        l=len(rows)
+        new=input("Enter Doctor ID You Want To Modify")
+        for i in range(l):
+                if rows[i][0]==new:
+                        name=input("Enter Doctor's Name")
+                        time=int(input("Enter OPD Timmings"))
+                        ph=int(input("Enter Phone Number"))
+                        dept=input("Enter Doctor's Department")
+                        amt=int(input("Enter OPD Charges"))
+                        r=[new,name,time,ph,dept,amt]
+                        rows=rows+r
+                        flag=1
+        f.close()
+        if flag==0:
+                print("Not Found")
+                
+        f1=open("doctor.csv","w")
+        sw=csv.writer(f1)
+        sw.writerow(r)
+        f1.close()
+        
+def delete():
+         f=open("doctor.csv","r",newline="\r\n")
+         sreader=csv.reader(f)
+         first()
+         flag=0
+         rows=[]
+         for r in sreader:
+                 rows.append(r)
+         l=len(rows)
+         n=input("Enter Doctor ID You Want To Delete")
+         for i in range(l):
+              if rows[i][0]==n:
+                   flag=1
+                   break
+         f.close()
+
+         if flag==0:
+                 print("Doctor ID Not Found")
+         else:
+                 rows.remove(rows[i])
+                 print("Doctor ID Deleted")
+         f1=open("doctor.csv","w",newline="\r\n")
+         new=csv.writer(f1)
+         new.writerows(rows)
+         f1.close()
+         
+####################################BILL#######################
+def bill():
+     first()
+     print("\n\n \t\t\t BILLING SECTION")
+     
+     f=open("pat.csv","r",newline="\r\n")
+     sreader=csv.reader(f)
+     flag=0
+     rows=[]
+     for r in sreader:
+          rows.append(r)
+          l=len(rows)
+     n=input("Enter  Patient  ID   -    ")
+     for i in range(l):
+          if rows[i][0]==n:
+               flag=1
+               
+               print("\t\t\tPatient ID  -",rows[i][0])
+               print("\t\t\tPatient NAME -",rows[i][1])
+               print("\t\t\tPatient Phone Number  -   ",rows[i][2])
+               print("\t\t\tDEPARTMENT -   ",rows[i][3])
+               print("\t\t\tDoctor  Name   -",rows[i][4])
+               print("\t\t\tAmount   -",rows[i][5])
+     if flag==0:
+          print("Patient ID Not Found")
+     f.close()
+
+main()
